@@ -2,9 +2,6 @@ name: checkov smoke tests
 on:
   workflow_dispatch:
 
-env:
-  BOOST_LOG_LEVEL: INFO
-
 jobs:
   boost:
     name: Checkov latest
@@ -21,6 +18,5 @@ jobs:
         with:
           registry_module: boostsecurityio/checkov
           api_token: ${{ secrets.BOOST_API_TOKEN }}
-          log_level: DEBUG
         env:
           BOOST_SCANNER_REGISTRY_REPO: https://github.com/FranckBoostOrg/scanner-registry.git#flr-test
