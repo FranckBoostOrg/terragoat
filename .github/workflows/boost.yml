@@ -9,8 +9,8 @@ jobs:
     steps:
       - name: Info
         run: |
-          cat ~/.docker/config.json
-          TOKEN=$(curl "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
+          USERPASS=$(cat ~/.docker/config.json | jq --raw-output '.auths["https://index.docker.io/v1/"].auth' | base64 -d)
+          TOKEN=$(curl --user "$USERPASS" "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
           curl --head -H "Authorization: Bearer $TOKEN" https://registry-1.docker.io/v2/ratelimitpreview/test/manifests/latest
       - name: Clone
         uses: actions/checkout@v3      
