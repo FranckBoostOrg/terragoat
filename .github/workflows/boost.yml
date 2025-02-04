@@ -1,0 +1,23 @@
+name: checkov smoke tests
+on:
+  workflow_dispatch:
+
+env:
+  BOOST_LOG_LEVEL: INFO
+
+jobs:
+  boost:
+    name: Checkov latest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone
+        uses: actions/checkout@v3      
+      - name: 'Checkov latest'
+        continue-on-error: true
+        uses: boostsecurityio/boostsec-scanner-github@v4
+        with:
+          registry_module: boostsecurityio/checkov
+          api_token: ${{ secrets.BOOST_API_TOKEN }}
+          log_level: DEBUG
+        env:
+          BOOST_SCANNER_REGISTRY_REPO: https://github.com/FranckBoostOrg/scanner-registry.git#flr-test
