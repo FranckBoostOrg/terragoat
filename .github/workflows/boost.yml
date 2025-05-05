@@ -9,16 +9,17 @@ jobs:
     steps:
       - name: Info
         run: |
-          USERPASS=$(cat ~/.docker/config.json | jq --raw-output '.auths["https://index.docker.io/v1/"].auth' | base64 -d)
-          TOKEN=$(curl -s --user "$USERPASS" "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
-          curl -s --head -H "Authorization: Bearer $TOKEN" https://registry-1.docker.io/v2/ratelimitpreview/test/manifests/latest
-      - name: Clone
-        uses: actions/checkout@v3      
-      - name: 'Checkov latest'
-        continue-on-error: true
-        uses: boostsecurityio/boostsec-scanner-github@v4
-        with:
-          registry_module: boostsecurityio/checkov
-          api_token: ${{ secrets.BOOST_API_TOKEN }}
-        env:
-          BOOST_SCANNER_REGISTRY_REPO: https://github.com/FranckBoostOrg/scanner-registry.git#flr-test
+          curl -L -H "Accept: application/vnd.github+json" -H "Authorization: Bearer $GITHUB_TOKEN"  -H "X-GitHub-Api-Version: 2022-11-28" $GITHUB_API_URL/repos/$GITHUB_REPOSITORY/dependency-graph/sbom
+      #   USERPASS=$(cat ~/.docker/config.json | jq --raw-output '.auths["https://index.docker.io/v1/"].auth' | base64 -d)
+      #   TOKEN=$(curl -s --user "$USERPASS" "https://auth.docker.io/token?service=registry.docker.io&scope=repository:ratelimitpreview/test:pull" | jq -r .token)
+      #   curl -s --head -H "Authorization: Bearer $TOKEN" https://registry-1.docker.io/v2/ratelimitpreview/test/manifests/latest
+      #- name: Clone
+      #  uses: actions/checkout@v3      
+      #- name: 'Checkov latest'
+      #  continue-on-error: true
+      #  uses: boostsecurityio/boostsec-scanner-github@v4
+      #  with:
+      #    registry_module: boostsecurityio/checkov
+      #    api_token: ${{ secrets.BOOST_API_TOKEN }}
+      #  env:
+      #    BOOST_SCANNER_REGISTRY_REPO: https://github.com/FranckBoostOrg/scanner-registry.git#flr-test
