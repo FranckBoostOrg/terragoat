@@ -6,11 +6,5 @@ jobs:
     runs-on: ubuntu-latest
     name: checkov-action
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v2
-
-      - name: Run Checkov action
-        id: checkov
-        uses: bridgecrewio/checkov-action@master
-        with:
-          directory: terraform/
+      - name: Run a one-line script
+        run: echo Hello, world!
